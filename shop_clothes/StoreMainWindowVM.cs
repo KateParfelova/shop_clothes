@@ -1,4 +1,5 @@
 ﻿using shop_clothes.repositories;
+using shop_clothes.Servises;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,7 +21,7 @@ namespace shop_clothes
         User user { get; set; }
         ObservableCollection<Products> _products;
 
-        private 
+        private StateProvider _stateProvider;
         public ObservableCollection<Products> Products
         {
             get => _products;
@@ -114,6 +115,48 @@ namespace shop_clothes
                 Search();
             }
         }
+
+        public ICommand Undo => new RelayCommand((object param) =>
+        {
+            var data = _stateProvider.Undo(MakeState());
+            if(data is not null)
+            {
+                Products = new(data.Products);
+                Users = new(data.Users);
+                OnPropertyChanged(nameof(Products));
+                OnPropertyChanged(nameof(Users));
+            }
+        });
+
+        public ICommand Save => new RelayCommand((object param) =>
+        {
+            using var context = new Context();
+            using var transaction = context.Database.BeginTransaction();
+            try
+            {
+               // context.Products
+                context.SaveChanges();
+                transaction.Commit();
+            }
+            catch
+            {
+                transaction.Rollback();
+            }
+
+        });
+
+        public ICommand Redo => new RelayCommand((object param) =>
+        {
+            var data = _stateProvider.Redo(MakeState());
+            if (data is not null)
+            {
+                Products = new(data.Products);
+                Users = new(data.Users);
+                OnPropertyChanged(nameof(Products));
+                OnPropertyChanged(nameof(Users));
+            }
+        });
+
         public ICommand EditProductCommand { get; }
         public ICommand DeleteProductCommand { get; }
         public ICommand DeleteUserCommand { get; }
@@ -128,6 +171,7 @@ namespace shop_clothes
         {
             this._windowService = _windowService;
             this.user = user;
+            _stateProvider = new();
             using (var context = new Context())
             {
                 RepositoryProducts repository = new RepositoryProducts(context);
@@ -138,6 +182,9 @@ namespace shop_clothes
                 RepUser repository = new RepUser(context);
                 _users = new ObservableCollection<User>(repository.GetAll().ToList());
             }
+
+            _stateProvider.SaveState(MakeState());
+
             EditProductCommand = new RelayCommand(EditProduct);
             DeleteProductCommand = new RelayCommand(DeleteProduct);
             DeleteUserCommand = new RelayCommand(DeleteUser);
@@ -166,12 +213,16 @@ namespace shop_clothes
         }
         void EditProduct(object parameter)
         {
+            _stateProvider.SaveState(MakeState());
             if (parameter is Products product)
             {
                 SelectedProduct = product;
                 OpenEditWindow();
             }
         }
+
+        State MakeState() => new State(_products, _users);
+
         void OpenEditWindow()
         {
             var editWindow = new EditProductWindow
@@ -184,6 +235,7 @@ namespace shop_clothes
             // Обновляем данные после закрытия окна редактирования
             if (editWindow.DialogResult == true)
             {
+                _stateProvider.SaveState(MakeState());
                 using (var context = new Context())
                 {
                     RepositoryProducts repository = new RepositoryProducts(context);
@@ -197,6 +249,7 @@ namespace shop_clothes
         {
             if (parameter is Products product)
             {
+                _stateProvider.SaveState(MakeState());
                 SelectedProduct = product;
                 using (var context = new Context())
                 {
@@ -212,6 +265,7 @@ namespace shop_clothes
         {
             if (parameter is User user)
             {
+                _stateProvider.SaveState(MakeState());
                 SelectedUser = user;
                 using (var context = new Context())
                 {
@@ -298,6 +352,7 @@ namespace shop_clothes
             // Обновляем данные после закрытия окна редактирования
             if (addWindow.DialogResult == true)
             {
+                _stateProvider.SaveState(MakeState());
                 using (var context = new Context())
                 {
                     RepositoryProducts repository = new RepositoryProducts(context);

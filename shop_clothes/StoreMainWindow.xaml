@@ -77,7 +77,15 @@
                     <TextBlock Margin="5,0" Text="{DynamicResource AddButton}" Background="{DynamicResource SecondaryBrush}"/>
                 </StackPanel>
                </Button>
-                
+
+                <Separator/>
+                <Menu  Background="{DynamicResource SecondaryBrush}">
+                    <MenuItem Header="Undo" Command="{Binding Undo}"/>
+                    <MenuItem Header="Redo" Command="{Binding Redo}"/>
+                    <MenuItem Header="Сохранить" Command="{Binding Save}"/>
+                </Menu>
+                <Separator/>
+
                 <!-- Поле поиска -->
                 <TextBox Width="200" Margin="5,0" Background="{DynamicResource AccentBrush}"
                          Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" >
