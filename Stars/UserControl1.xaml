@@ -1,0 +1,106 @@
+<UserControl x:Class="Stars.UserControl1"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Stars"
+             mc:Ignorable="d"
+             d:DesignHeight="50" d:DesignWidth="200"
+             x:Name="root">
+
+    <UserControl.Resources>
+        <local:RatingToStarConverter x:Key="RatingToStarConverter"/>
+        <local:StarColorConverter x:Key="StarColorConverter"/>
+    </UserControl.Resources>
+
+    <StackPanel x:Name="MainPanel" Orientation="Horizontal">
+        <!-- Контейнер для звезд -->
+        <ItemsControl x:Name="StarsContainer" ItemsSource="{Binding ElementName=root, Path=MaxRating}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Viewbox x:Name="StarViewbox" 
+                             Width="{Binding ElementName=root, Path=StarSize}" 
+                             Height="{Binding ElementName=root, Path=StarSize}"
+                             Margin="2,0">
+                        <TextBlock x:Name="StarText"
+                                   FontFamily="Segoe UI Symbol"
+                                   RenderTransformOrigin="0.5,0.5"
+                                   Text="{Binding ElementName=root, Path=Rating, Converter={StaticResource RatingToStarConverter}, ConverterParameter={}}"
+                                   Foreground="{Binding ElementName=root, Path=Rating, Converter={StaticResource StarColorConverter}}">
+                            <TextBlock.RenderTransform>
+                                <ScaleTransform x:Name="StarScale" ScaleX="1" ScaleY="1"/>
+                            </TextBlock.RenderTransform>
+                            <TextBlock.Effect>
+                                <DropShadowEffect x:Name="StarShadow" 
+                                                  ShadowDepth="0" 
+                                                  BlurRadius="0" 
+                                                  Opacity="0"
+                                                  Color="{Binding ElementName=root, Path=FilledStarColor.Color}"/>
+                            </TextBlock.Effect>
+                        </TextBlock>
+                    </Viewbox>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <!-- Значение рейтинга -->
+        <TextBlock x:Name="RatingValueText"
+                   Text="{Binding ElementName=root, Path=Rating, StringFormat={Binding ElementName=root, Path=RatingValueFormat}}"
+                   Margin="8,0,0,0"
+                   VerticalAlignment="Center"
+                   FontSize="{Binding ElementName=root, Path=StarSize}"
+                   Foreground="{Binding ElementName=root, Path=FilledStarColor}"
+                   Visibility="Collapsed"/>
+    </StackPanel>
+
+    <UserControl.Triggers>
+        <!-- Триггер для отображения значения рейтинга -->
+        <Trigger Property="ShowRatingValue" Value="True">
+            <Setter TargetName="RatingValueText" Property="Visibility" Value="Visible"/>
+        </Trigger>
+
+        <!-- Анимация при наведении -->
+        <EventTrigger RoutedEvent="MouseEnter">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="StarShadow"
+                                     Storyboard.TargetProperty="BlurRadius"
+                                     To="10" Duration="0:0:0.3"/>
+                    <DoubleAnimation Storyboard.TargetName="StarShadow"
+                                     Storyboard.TargetProperty="Opacity"
+                                     To="0.7" Duration="0:0:0.3"/>
+                    <DoubleAnimation Storyboard.TargetName="StarScale"
+                                     Storyboard.TargetProperty="ScaleX"
+                                     To="1.2" Duration="0:0:0.2"/>
+                    <DoubleAnimation Storyboard.TargetName="StarScale"
+                                     Storyboard.TargetProperty="ScaleY"
+                                     To="1.2" Duration="0:0:0.2"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+
+        <EventTrigger RoutedEvent="MouseLeave">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="StarShadow"
+                                     Storyboard.TargetProperty="BlurRadius"
+                                     To="0" Duration="0:0:0.3"/>
+                    <DoubleAnimation Storyboard.TargetName="StarShadow"
+                                     Storyboard.TargetProperty="Opacity"
+                                     To="0" Duration="0:0:0.3"/>
+                    <DoubleAnimation Storyboard.TargetName="StarScale"
+                                     Storyboard.TargetProperty="ScaleX"
+                                     To="1" Duration="0:0:0.2"/>
+                    <DoubleAnimation Storyboard.TargetName="StarScale"
+                                     Storyboard.TargetProperty="ScaleY"
+                                     To="1" Duration="0:0:0.2"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </UserControl.Triggers>
+</UserControl>

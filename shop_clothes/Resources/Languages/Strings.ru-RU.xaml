@@ -1,0 +1,51 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <system:String x:Key="WelcomeMessage">Добро пожаловать в магазин одежды</system:String>
+    <system:String x:Key="WelcomeMessage2">Регистрация</system:String>
+    <system:String x:Key="LoginButton">Войти</system:String>
+    <system:String x:Key="MainWindow">Магазин одежды - Авторизация</system:String>
+    <system:String x:Key="EmailTextBlock">Электронная почта:</system:String>
+    <system:String x:Key="PasswordTextBlock">Пароль:</system:String>
+    <system:String x:Key="PasswordTextBlock2">Повторить пароль:</system:String>
+    
+    <system:String x:Key="RoleWindowAdmin">Администратор</system:String>
+    <system:String x:Key="RoleWindowClient">Клиент</system:String>
+    <system:String x:Key="ExitButton">Выход</system:String>
+    <system:String x:Key="SettingsButton">Настройки</system:String>
+    <system:String x:Key="LanguageButton">Язык</system:String>
+    <system:String x:Key="ThemeButton">Тема</system:String>
+    <system:String x:Key="LightThemeButton">Светлая</system:String>
+    <system:String x:Key="DarkThemeButton">Тёмная</system:String>
+    <system:String x:Key="HighContrastThemeButton">Высокая контрастность</system:String>
+    <system:String x:Key="AddProductButton">Добавить продукт</system:String>
+    <system:String x:Key="BakageButton">Купленные товары</system:String>
+    <system:String x:Key="MainButton">Главная</system:String>
+    <system:String x:Key="SelectCategoryTextBlock">Выбрать категорию</system:String>
+    <system:String x:Key="MoreDetailedButton">Подробнее</system:String>
+    <system:String x:Key="IntoBasketButton">Купить</system:String>
+    
+    <system:String x:Key="AddProductWindow">Добавить продукт</system:String>
+    <system:String x:Key="ShortNameTextBlock">Короткое название:</system:String>
+    <system:String x:Key="FullNameTextBlock">Полное название:</system:String>
+    <system:String x:Key="DescriptionTextBlock">Описание:</system:String>
+    <system:String x:Key="PathToImgTextBlock">Путь к изображению:</system:String>
+    <system:String x:Key="CategoryTextBlock">Категория:</system:String>
+    <system:String x:Key="RatingTextBlock">Рейтинг:</system:String>
+    <system:String x:Key="PriceTextBlock">Цена:</system:String>
+    <system:String x:Key="QuantityInStockTextBlock">Количество на складе:</system:String>
+    <system:String x:Key="ColorTextBlock">Цвет:</system:String>
+    <system:String x:Key="SizeTextBlock">Размер:</system:String>
+    <system:String x:Key="DiscountTextBlock">Скидка:</system:String>
+    <system:String x:Key="AvailableInStockTextBlock">Есть в наличии:</system:String>
+    <system:String x:Key="DeliveryCountryTextBlock">Страна производитель:</system:String>
+    <system:String x:Key="PurchasedCountTextBlock">Количество покупок товара:</system:String>
+    <system:String x:Key="ManufacturerTextBlock">Производитель:</system:String>
+    <system:String x:Key="AddButton">Добавить</system:String>
+    <system:String x:Key="CancelButton">Отмена</system:String>
+
+    <system:String x:Key="EditProductWindow">Редактирования продукта</system:String>
+    <system:String x:Key="SaveButton">Сохранить</system:String>
+
+    
+</ResourceDictionary>

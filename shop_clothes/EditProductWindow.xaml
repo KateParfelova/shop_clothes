@@ -1,0 +1,151 @@
+﻿<Window x:Class="shop_clothes.EditProductWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:shop_clothes"
+        mc:Ignorable="d"
+        Title="{DynamicResource EditProductWindow}"
+        WindowStartupLocation="CenterOwner"
+        Style="{StaticResource WindowAddStyle}">
+    <DockPanel Background="{DynamicResource PrimaryBrush}">
+        <ToolBarTray DockPanel.Dock="Top" Background="{DynamicResource SecondaryBrush}">
+            <ToolBar Background="{DynamicResource SecondaryBrush}">
+                <!-- Меню "Настройки" -->
+                <Menu Background="{DynamicResource SecondaryBrush}">
+                    <MenuItem Header="{DynamicResource SettingsButton}" Foreground="{DynamicResource TextBrush}" Background="{DynamicResource SecondaryBrush}">
+
+                        <!-- Смена языка -->
+                        <MenuItem Header="{DynamicResource LanguageButton}" Foreground="{DynamicResource TextBrush}" Background="{DynamicResource SecondaryBrush}">
+                            <MenuItem Command="{Binding ChangeLanguageCommand}" CommandParameter="ru-RU" Background="{DynamicResource SecondaryBrush}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="Русский (RU)" Background="{DynamicResource SecondaryBrush}" Foreground="{DynamicResource TextBrush}"/>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem Command="{Binding ChangeLanguageCommand}" CommandParameter="en-US" Background="{DynamicResource SecondaryBrush}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="English (EN)" Background="{DynamicResource SecondaryBrush}" Foreground="{DynamicResource TextBrush}"/>
+                                </MenuItem.Header>
+                            </MenuItem>
+                        </MenuItem>
+                        <Separator/>
+                        <!-- Смена темы -->
+                        <MenuItem Header="{DynamicResource ThemeButton}" Foreground="{DynamicResource TextBrush}" Background="{DynamicResource SecondaryBrush}">
+                            <MenuItem Header="{DynamicResource LightThemeButton}" Foreground="{DynamicResource TextBrush}" Command="{Binding ChangeThemeCommand}" CommandParameter="Light" Background="{DynamicResource SecondaryBrush}"/>
+                            <MenuItem Header="{DynamicResource DarkThemeButton}" Foreground="{DynamicResource TextBrush}" Command="{Binding ChangeThemeCommand}" CommandParameter="Dark" Background="{DynamicResource SecondaryBrush}"/>
+                            <MenuItem Header="{DynamicResource HighContrastThemeButton}" Foreground="{DynamicResource TextBrush}" Command="{Binding ChangeThemeCommand}" CommandParameter="HighContrast" Background="{DynamicResource SecondaryBrush}"/>
+                        </MenuItem>
+                    </MenuItem>
+                </Menu>
+            </ToolBar>
+        </ToolBarTray>
+        <Grid Margin="10">
+        <!-- Форма редактирования -->
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="{DynamicResource PrimaryBrush}">
+                <StackPanel Background="{DynamicResource PrimaryBrush}">
+                    <TextBlock Text="{DynamicResource ShortNameTextBlock}"  Foreground="{DynamicResource TextBrush}"/>
+                    <TextBox Text="{Binding CurrentProduct.shortName, UpdateSourceTrigger=PropertyChanged, Mode = TwoWay}" Background="{DynamicResource AccentBrush}"/>
+
+                    <TextBlock Text="{DynamicResource FullNameTextBlock}" Margin="0,7,0,0"  Foreground="{DynamicResource TextBrush}"/>
+                    <TextBox Text="{Binding CurrentProduct.fullName, UpdateSourceTrigger=PropertyChanged, Mode = TwoWay}" Background="{DynamicResource AccentBrush}"/>
+
+                    <TextBlock Text="{DynamicResource DescriptionTextBlock}" Margin="0,7,0,0"  Foreground="{DynamicResource TextBrush}"/>
+                    <TextBox Text="{Binding CurrentProduct.description, UpdateSourceTrigger=PropertyChanged, Mode = TwoWay}" Background="{DynamicResource AccentBrush}"/>
+
+                    <TextBlock Text="{DynamicResource PathToImgTextBlock}" Margin="0,7,0,0"  Foreground="{DynamicResource TextBrush}"/>
+                    <TextBox Text="{Binding CurrentProduct.imagePath, UpdateSourceTrigger=PropertyChanged, Mode = TwoWay}" Background="{DynamicResource AccentBrush}"/>
+                    <Border x:Name="DropArea" Height="150" Margin="0,5,0,0" CornerRadius="5"
+        BorderThickness="2" BorderBrush="{DynamicResource AccentBrush}"
+        Background="{DynamicResource SecondaryBrush}"
+        AllowDrop="True"
+        ToolTip="Поддерживаются форматы: JPG, PNG, BMP, GIF">
+
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="BorderBrush" Value="#FF2196F3"/>
+                                        <Setter Property="Background" Value="#E3F2FD"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+
+                        <!-- Отображение выбранного изображения -->
+                        <Grid>
+                            <Image Source="{Binding CurrentProduct.imagePath}" 
+               Width="120" Height="120" Stretch="Uniform"/>
+
+                            <!-- Заглушка когда нет изображения -->
+                            <TextBlock Text="+ Добавить изображение" VerticalAlignment="Center" HorizontalAlignment="Center"
+                   Foreground="Gray" FontStyle="Italic"/>
+
+                            <!-- Кнопка удаления -->
+                            <Button Content="✕" Width="24" Height="24" 
+                HorizontalAlignment="Right" VerticalAlignment="Top" 
+                Margin="5" Padding="0" FontSize="12"
+                Command="{Binding RemoveImageCommand}"
+                ToolTip="Удалить изображение">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Background" Value="#CCFF0000"/>
+                                        <Setter Property="Foreground" Value="White"/>
+                                        <Setter Property="BorderBrush" Value="Transparent"/>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </Grid>
+                    </Border>
+
+                    <Button Content="Выбрать изображение..." Margin="0,5,0,0"
+        Command="{Binding SelectImageCommand}"/>
+
+                    <TextBlock Text="{DynamicResource CategoryTextBlock}" Margin="0,7,0,0"  Foreground="{DynamicResource TextBrush}"/>
+                    <ComboBox Margin="5,0" ItemsSource="{Binding Categories,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                              SelectedItem="{Binding SelectedCategories, UpdateSourceTrigger=PropertyChanged, Mode = TwoWay}" 
+                              DisplayMemberPath="Name" 
+                              Background="{DynamicResource AccentBrush}"/>
+
+                    <TextBlock Text="{DynamicResource RatingTextBlock}" Margin="0,7,0,0"  Foreground="{DynamicResource TextBrush}"/>
+                    <TextBox Text="{Binding CurrentProduct.rating, UpdateSourceTrigger=PropertyChanged, Mode = TwoWay}" Background="{DynamicResource AccentBrush}"/>
+
+                    <TextBlock Text="{DynamicResource PriceTextBlock}" Margin="0,7,0,0"  Foreground="{DynamicResource TextBrush}"/>
+                    <TextBox Text="{Binding CurrentProduct.price, UpdateSourceTrigger=PropertyChanged, Mode = TwoWay}" Background="{DynamicResource AccentBrush}"/>
+
+                    <TextBlock Text="{DynamicResource QuantityInStockTextBlock}" Margin="0,7,0,0"  Foreground="{DynamicResource TextBrush}"/>
+                    <TextBox Text="{Binding CurrentProduct.quantity, UpdateSourceTrigger=PropertyChanged, Mode = TwoWay}" Background="{DynamicResource AccentBrush}"/>
+
+                    <TextBlock Text="{DynamicResource ColorTextBlock}" Margin="0,7,0,0"  Foreground="{DynamicResource TextBrush}"/>
+                    <TextBox Text="{Binding CurrentProduct.color, UpdateSourceTrigger=PropertyChanged, Mode = TwoWay}" Background="{DynamicResource AccentBrush}"/>
+
+                    <TextBlock Text="{DynamicResource SizeTextBlock}" Margin="0,7,0,0"  Foreground="{DynamicResource TextBrush}"/>
+                    <TextBox Text="{Binding CurrentProduct.size, UpdateSourceTrigger=PropertyChanged, Mode = TwoWay}" Background="{DynamicResource AccentBrush}"/>
+
+                    <TextBlock Text="{DynamicResource DiscountTextBlock}" Margin="0,7,0,0"  Foreground="{DynamicResource TextBrush}"/>
+                    <TextBox Text="{Binding CurrentProduct.discount, UpdateSourceTrigger=PropertyChanged, Mode = TwoWay}" Background="{DynamicResource AccentBrush}"/>
+
+                    <TextBlock Text="{DynamicResource AvailableInStockTextBlock}" Margin="0,7,0,0"  Foreground="{DynamicResource TextBrush}"/>
+                    <TextBox Text="{Binding CurrentProduct.isOutOfStock, UpdateSourceTrigger=PropertyChanged, Mode = TwoWay}" Background="{DynamicResource AccentBrush}"/>
+
+                    <TextBlock Text="{DynamicResource DeliveryCountryTextBlock}" Margin="0,7,0,0"  Foreground="{DynamicResource TextBrush}"/>
+                    <TextBox Text="{Binding CurrentProduct.deliveryCountry, UpdateSourceTrigger=PropertyChanged, Mode = TwoWay}" Background="{DynamicResource AccentBrush}"/>
+
+                    <TextBlock Text="{DynamicResource PurchasedCountTextBlock}" Margin="0,7,0,0"  Foreground="{DynamicResource TextBrush}"/>
+                    <TextBox Text="{Binding CurrentProduct.purchasedCount, UpdateSourceTrigger=PropertyChanged, Mode = TwoWay}" Background="{DynamicResource AccentBrush}"/>
+
+                    <TextBlock Text="{DynamicResource ManufacturerTextBlock}" Margin="0,7,0,0"  Foreground="{DynamicResource TextBrush}"/>
+                    <TextBox Text="{Binding CurrentProduct.manufacturer, UpdateSourceTrigger=PropertyChanged, Mode = TwoWay}" Background="{DynamicResource AccentBrush}"/>
+
+                <!-- Кнопки -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0" Background="{DynamicResource PrimaryBrush}">
+                        <Button Style="{StaticResource SaveButtonStyle}"
+                        Command="{Binding SaveCommand}"
+                        IsDefault="True"/>
+                        <Button Style="{StaticResource CancelButtonStyle}"
+                        IsCancel="True"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+     </DockPanel>
+</Window>

@@ -1,0 +1,49 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <system:String x:Key="WelcomeMessage">Welcome to the clothing store</system:String>
+    <system:String x:Key="WelcomeMessage2">Registration</system:String>
+    <system:String x:Key="LoginButton">Login</system:String>
+    <system:String x:Key="MainWindow">Clothing store - Authorization</system:String>
+    <system:String x:Key="EmailTextBlock">Email:</system:String>
+    <system:String x:Key="PasswordTextBlock">Password:</system:String>
+    <system:String x:Key="PasswordTextBlock2">Repit password:</system:String>
+
+    <system:String x:Key="RoleWindowAdmin">Administrator</system:String>
+    <system:String x:Key="RoleWindowClient">Client</system:String>
+    <system:String x:Key="ExitButton">Exit</system:String>
+    <system:String x:Key="SettingsButton">Settings</system:String>
+    <system:String x:Key="LanguageButton">Language</system:String>
+    <system:String x:Key="ThemeButton">Theme</system:String>
+    <system:String x:Key="LightThemeButton">Light</system:String>
+    <system:String x:Key="DarkThemeButton">Dark</system:String>
+    <system:String x:Key="HighContrastThemeButton">High Contrast</system:String>
+    <system:String x:Key="AddProductButton">Add product</system:String>
+    <system:String x:Key="BakageButton">Purchased items</system:String>
+    <system:String x:Key="MainButton">Main</system:String>
+    <system:String x:Key="SelectCategoryTextBlock">Select category</system:String>
+    <system:String x:Key="MoreDetailedButton">More Detailed</system:String>
+    <system:String x:Key="IntoBasketButton">Buy</system:String>
+
+    <system:String x:Key="AddProductWindow">Add product</system:String>
+    <system:String x:Key="ShortNameTextBlock">Short name:</system:String>
+    <system:String x:Key="FullNameTextBlock">Full name:</system:String>
+    <system:String x:Key="DescriptionTextBlock">Description:</system:String>
+    <system:String x:Key="PathToImgTextBlock">Path to image:</system:String>
+    <system:String x:Key="CategoryTextBlock">Category:</system:String>
+    <system:String x:Key="RatingTextBlock">Rating:</system:String>
+    <system:String x:Key="PriceTextBlock">Price:</system:String>
+    <system:String x:Key="QuantityInStockTextBlock">Quantity in stock:</system:String>
+    <system:String x:Key="ColorTextBlock">Color:</system:String>
+    <system:String x:Key="SizeTextBlock">Size:</system:String>
+    <system:String x:Key="DiscountTextBlock">Discount:</system:String>
+    <system:String x:Key="AvailableInStockTextBlock">Available in stock:</system:String>
+    <system:String x:Key="DeliveryCountryTextBlock">Delivery country:</system:String>
+    <system:String x:Key="PurchasedCountTextBlock">Purchased count:</system:String>
+    <system:String x:Key="ManufacturerTextBlock">Manufacturer:</system:String>
+    <system:String x:Key="AddButton">Add</system:String>
+    <system:String x:Key="CancelButton">Cancel</system:String>
+
+    <system:String x:Key="EditProductWindow">Product editing</system:String>
+    <system:String x:Key="SaveButton">Save</system:String>
+</ResourceDictionary>

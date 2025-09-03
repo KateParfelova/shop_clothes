@@ -1,0 +1,275 @@
+﻿<Window x:Class="shop_clothes.StoreMainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:shop_clothes"
+        mc:Ignorable="d"
+        Title="{DynamicResource RoleWindowAdmin}" 
+        Style="{StaticResource StoreMainWindow}"
+        >
+
+    <DockPanel Background="{DynamicResource SecondaryBrush}">
+        <!-- Панель инструментов с поиском и фильтрами -->
+        <ToolBarTray DockPanel.Dock="Top" 
+                     Background="{DynamicResource SecondaryBrush}">
+            <ToolBar Background="{DynamicResource SecondaryBrush}">
+                <!-- Меню "Настройки" -->
+                <Menu Background="{DynamicResource SecondaryBrush}">
+                    <MenuItem Header="{DynamicResource SettingsButton}" 
+                              Style="{StaticResource StyleMenuItem}">
+                        <!-- Выход -->
+                        <MenuItem Command="{Binding ExitCommand}" 
+                                  Background="{DynamicResource SecondaryBrush}">
+                            <MenuItem.Header>
+                                <StackPanel 
+                                    Orientation="Horizontal" 
+                                    Background="{DynamicResource SecondaryBrush}">
+                                    <TextBlock 
+                                        Text="{DynamicResource ExitButton}"
+                                        Style="{StaticResource StyleTextBlock}"/>
+                                </StackPanel>
+                            </MenuItem.Header>
+                        </MenuItem>
+
+                        <Separator/>
+
+                        <!-- Смена языка -->
+                        <MenuItem Header="{DynamicResource LanguageButton}" 
+                                  Style="{StaticResource StyleMenuItem}">
+                            <MenuItem Command="{Binding ChangeLanguageCommand}" 
+                                      CommandParameter="ru-RU" 
+                                      Style="{StaticResource StyleMenuItem}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="Русский (RU)"
+                                               Style="{StaticResource StyleTextBlock}"/>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem Command="{Binding ChangeLanguageCommand}"
+                                      CommandParameter="en-US" 
+                                      Style="{StaticResource StyleMenuItem}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="English (EN)" 
+                                              Style="{StaticResource StyleTextBlock}"/>
+                                </MenuItem.Header>
+                            </MenuItem>
+                        </MenuItem>
+                        <Separator/>
+                        <!-- Смена темы -->
+                        <MenuItem Header="{DynamicResource ThemeButton}" 
+                                  Style="{StaticResource StyleMenuItem}">
+                            <MenuItem Header="{DynamicResource LightThemeButton}"
+                                      Style="{StaticResource StyleMenuItem}"
+                                      Command="{Binding ChangeThemeCommand}" 
+                                      CommandParameter="Light"/>
+                            <MenuItem Header="{DynamicResource DarkThemeButton}"
+                                      Command="{Binding ChangeThemeCommand}" 
+                                      CommandParameter="Dark"
+                                      Style="{StaticResource StyleMenuItem}"/>
+                            <MenuItem Header="{DynamicResource HighContrastThemeButton}" 
+                                    
+                                      Command="{Binding ChangeThemeCommand}" CommandParameter="HighContrast" Style="{StaticResource StyleMenuItem}"/>
+                        </MenuItem>
+                    </MenuItem>
+                </Menu>
+                <Button Command="{Binding AddCommand}" ToolTip="Добавить" Foreground="{DynamicResource TextBrush}" Background="{DynamicResource SecondaryBrush}">
+                  <StackPanel Orientation="Horizontal" Background="{DynamicResource SecondaryBrush}">
+                    <TextBlock Margin="5,0" Text="{DynamicResource AddButton}" Background="{DynamicResource SecondaryBrush}"/>
+                </StackPanel>
+               </Button>
+                
+                <!-- Поле поиска -->
+                <TextBox Width="200" Margin="5,0" Background="{DynamicResource AccentBrush}"
+                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" >
+                    
+                </TextBox>
+                <!-- Выпадающий список фильтров -->
+            <ComboBox Width="120" Margin="5,0"
+                          ItemsSource="{Binding FilterOptions}"
+                          SelectedItem="{Binding SelectedFilter}"
+                          DisplayMemberPath="Name" Background="{DynamicResource AccentBrush}"/>
+                <TextBlock Text="{DynamicResource SelectCategoryTextBlock}"
+                          Style="{StaticResource StyleTextBlock}"/>
+            <ComboBox Width="120" Margin="5,0"
+              ItemsSource="{Binding FilterCategories}"
+              SelectedItem="{Binding SelectedFilterCategories}"
+              DisplayMemberPath="Name"
+              Background="{DynamicResource AccentBrush}"/>
+                
+            </ToolBar>
+    </ToolBarTray>
+        <!--Основное окно-->
+    <Grid>
+            <TabControl>
+                <TabItem Header="Продукты">
+                    <DataGrid ItemsSource="{Binding Products}" 
+                              CanUserAddRows="False" 
+                              Style="{StaticResource DataGrid}"
+                              SelectedItem="{Binding SelectedProduct}" 
+AutoGeneratingColumn="DataGrid_AutoGeneratingColumn">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Actions"
+                             MinWidth="100" 
+                             IsReadOnly="True"
+                            >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Style="{StaticResource EditButtonStyle}"
+                 ToolTip="Редактировать"
+                 Command="{Binding Path=DataContext.EditProductCommand, 
+                         RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                 CommandParameter="{Binding}"
+                 Margin="2"
+                 Padding="5"
+                 />
+                                            <Button  Style="{StaticResource DeleteButtonStyle}"
+                 ToolTip="Удалить"
+                 Command="{Binding Path=DataContext.DeleteProductCommand, 
+                         RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                 CommandParameter="{Binding}"
+                 Margin="2"
+                 Padding="5"
+                 Background="#FFE53935"
+                 Foreground="White"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn Header="Category" 
+                          Binding="{Binding Category.name}"/>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Пользователи">
+                    <DataGrid CanUserAddRows="False" 
+       ItemsSource="{Binding Users}" 
+       SelectedItem="{Binding SelectedUser}" 
+       AutoGeneratingColumn="DataGrid_AutoGeneratingColumn2"  
+                              Style="{StaticResource DataGrid}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Actions"
+                 MaxWidth="70" 
+                 IsReadOnly="True"
+                >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                           
+                                            <Button  Style="{StaticResource DeleteButtonStyle}"
+     ToolTip="Удалить"
+     Command="{Binding Path=DataContext.DeleteUserCommand, 
+             RelativeSource={RelativeSource AncestorType=DataGrid}}"
+     CommandParameter="{Binding}"
+     Margin="2"
+     Padding="5"
+     Background="#FFE53935"
+     Foreground="White"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+            </TabControl>
+        <!--
+            <DataGrid  
+                x:Name="Table1" 
+                CanUserAddRows="False" 
+                       ItemsSource="{Binding Products}" 
+                       SelectedItem="{Binding SelectedProduct}" 
+                       AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" 
+                       
+                       Style="{StaticResource DataGrid}">
+            
+                
+
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Actions"
+                                            MinWidth="100" 
+                                            IsReadOnly="True"
+                                           >
+                    <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                    <Button Style="{StaticResource EditButtonStyle}"
+                                ToolTip="Редактировать"
+                                Command="{Binding Path=DataContext.EditProductCommand, 
+                                        RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                CommandParameter="{Binding}"
+                                Margin="2"
+                                Padding="5"
+                                />
+                                    <Button  Style="{StaticResource DeleteButtonStyle}"
+                                ToolTip="Удалить"
+                                Command="{Binding Path=DataContext.DeleteProductCommand, 
+                                        RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                CommandParameter="{Binding}"
+                                Margin="2"
+                                Padding="5"
+                                Background="#FFE53935"
+                                Foreground="White"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                       
+                     <DataGridTextColumn Header="Category" 
+                                         Binding="{Binding Category.name}"/>
+          
+                </DataGrid.Columns>
+            </DataGrid>-->
+           
+        <!--<DataGrid  
+     x:Name="Table2" 
+     CanUserAddRows="False" 
+            ItemsSource="{Binding Users}" 
+            SelectedItem="{Binding SelectedUser}" 
+            AutoGeneratingColumn="DataGrid_AutoGeneratingColumn2" 
+            
+            Style="{StaticResource DataGrid2}">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Actions"
+                                 MinWidth="100" 
+                                 IsReadOnly="True"
+                                >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Style="{StaticResource EditButtonStyle}"
+                     ToolTip="Редактировать"
+                     Command="{Binding Path=DataContext.EditProductCommand, 
+                             RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                     CommandParameter="{Binding}"
+                     Margin="2"
+                     Padding="5"
+                     />
+                                    <Button  Style="{StaticResource DeleteButtonStyle}"
+                     ToolTip="Удалить"
+                     Command="{Binding Path=DataContext.DeleteProductCommand, 
+                             RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                     CommandParameter="{Binding}"
+                     Margin="2"
+                     Padding="5"
+                     Background="#FFE53935"
+                     Foreground="White"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTextColumn Header="Category" 
+                              Binding="{Binding Category.name}"/>
+
+                </DataGrid.Columns>
+            </DataGrid>-->
+        
+    </Grid>
+    </DockPanel>
+</Window>
