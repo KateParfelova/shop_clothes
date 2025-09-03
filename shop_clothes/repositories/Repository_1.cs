@@ -140,14 +140,7 @@ namespace shop_clothes
         public void Update(Products newItem)//протестировать
         {
             var item = GetById(newItem.Id);
-            Type type = newItem.GetType();
-            PropertyInfo[] fields = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-            foreach (var field in fields)
-            {
-                // Копируем значения полей
-                object? value = field.GetValue(newItem);
-                field.SetValue(item, value);
-            }
+            item = newItem.Clone();
             Save();
         }
 

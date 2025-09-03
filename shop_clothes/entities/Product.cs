@@ -61,7 +61,10 @@ namespace shop_clothes
                 deliveryCountry = this.deliveryCountry,
                 purchasedCount = this.purchasedCount,
                 manufacturer = this.manufacturer,
-                Category = this.Category?.Clone() as category,
+                Category = new category { 
+                    Id = this.Category.Id, 
+                    name= this.Category.name,
+                    Products = this.Category.Products},
             };
         }
         public event PropertyChangedEventHandler? PropertyChanged;

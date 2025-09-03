@@ -15,8 +15,8 @@ namespace shop_clothes.Servises
 
         public State(ICollection<Products> products, ICollection<User> users)
         {
-            Products = [.. products.Select(p => p.Clone())];
             Users = [.. users.Select(u => (User)u.Clone())];
+            Products = [.. products.Select(p => p.Clone())];
         }
 
         public virtual bool Equals(State? other)

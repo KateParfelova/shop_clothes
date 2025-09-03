@@ -134,7 +134,14 @@ namespace shop_clothes
             using var transaction = context.Database.BeginTransaction();
             try
             {
-               // context.Products
+                var existingProducts = context.Products.ToList();
+                context.Products.RemoveRange(existingProducts);
+                context.Products.AddRange(Products);
+
+                var existingUsers = context.Users.ToList();
+                context.Users.RemoveRange(existingUsers);
+                context.Users.AddRange(Users);
+
                 context.SaveChanges();
                 transaction.Commit();
             }
